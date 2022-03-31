@@ -2,6 +2,9 @@ import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 
 
@@ -16,6 +19,8 @@ export const UpdatePass = (props) => {
     const update = (e) => {
 
         e.preventDefault()
+        const toast1 = () => { }
+
 
         var data = {
             userId: id,
@@ -25,8 +30,16 @@ export const UpdatePass = (props) => {
 
         axios.put('http://localhost:4000/users/updatepass', data).then(res => {
             console.log(res.data)
-            alert('password updated')
-
+            toast.success(`Password Updated`, {
+                position: "top-center",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
         }).catch(err => {
             console.log(err)
         })
@@ -55,6 +68,21 @@ export const UpdatePass = (props) => {
 
 
                                             <button type="submit" class="btn btn-primary btn-flat m-b-15" >Submit</button>
+                                            <ToastContainer
+                                                position="top-center"
+                                                autoClose={2500}
+                                                hideProgressBar={false}
+                                                newestOnTop={false}
+                                                closeOnClick
+                                                rtl={false}
+                                                pauseOnFocusLoss
+                                                draggable
+                                                pauseOnHover
+                                            />
+                                            <div class="register-link m-t-15 text-center">
+                                                <p><Link to="/Login"> Login</Link></p>
+
+                                            </div>
 
                                         </form>
 

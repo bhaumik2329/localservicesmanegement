@@ -7,55 +7,70 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AdminNavbar } from '../components/AdminNavbar'
 
-export const UpdateRole = () => {
+export const UpdateService = () => {
     const toast1 = () => { }
 
+    const [service, setservice] = useState([])
+    const [serviceName, setserviceName] = useState()
 
     var id = useParams().id;
-
-    const [role, setRole] = useState('')
-    const [roleName, setRoleName] = useState('')
 
 
     const getData = () => {
 
-        axios.get(`http://localhost:4000/roles/${id}`).then(res => {
+        axios.get(`http://localhost:4000/services/${id}`).then(res => {
 
-            setRole(res.data.data)
+            setservice(res.data.data)
             console.log(res.data.data)
+
 
         }).catch(err => {
             console.log(err);
         })
     }
 
-
     useEffect(() => {
         getData()
+        setserviceName(service.serviceName)
+
     }, [])
-
-
-
 
     const updateData = (e) => {
 
         var updateData = {
-            roleId: id,
-            roleName: roleName,
+            serviceId: id,
+            serviceName: serviceName,
+
         }
         e.preventDefault()
 
-        axios.put('http://localhost:4000/roles', updateData).then(res => {
-            toast.success('🦄 Data Deleted Successfully!', {
-                position: "top-center",
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark"
-            });
+        axios.put('http://localhost:4000/services', updateData).then(res => {
+            console.log(res.data)
+            if (res.data.status == 200) {
+
+                toast.success('🦄 Data Updated Successfully!', {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+            }
+            else {
+                toast.error(res.data.msg, {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+            }
         })
 
 
@@ -63,18 +78,9 @@ export const UpdateRole = () => {
     }
 
 
-
-
-
-
-
-
-
-
     return (
         <>
             <div>
-
                 <AdminNavbar />
 
 
@@ -96,7 +102,7 @@ export const UpdateRole = () => {
                                         <div class="page-title">
                                             <ol class="breadcrumb">
                                                 <li class="breadcrumb-item"><Link to="#">Admin/</Link></li>
-                                                <li class="breadcrumb-item active">Roles update</li>
+                                                <li class="breadcrumb-item active">Serviceupdate</li>
                                             </ol>
                                         </div>
                                     </div>
@@ -109,8 +115,7 @@ export const UpdateRole = () => {
                 {/* welcome completed */}
 
 
-
-
+                {/* update */}
                 <div class="header">
                     <div class="container-fluid">
                         <div class="container">
@@ -118,14 +123,13 @@ export const UpdateRole = () => {
 
                                 <form onSubmit={updateData}>
                                     <div class="form-group">
-                                        <label for="role id">Role Id</label>
-                                        <input type="text" class="form-control" Value={role._id}
+                                        <label for="service id">Service Id</label>
+                                        <input type="text" class="form-control" defaultValue={service._id}
                                             disabled />
                                     </div>
                                     <div class="form-group">
-                                        <label for="role name">Role Name</label>
-                                        <input type="text" class="form-control" Value={role.roleName}
-                                            onChange={(e) => setRoleName(e.target.value)} />
+                                        <label for="service name">Service Name</label>
+                                        <input type="text" class="form-control" onChange={(e) => { setserviceName(e.target.value) }} defaultValue={service.serviceName} />
                                     </div>
 
                                     <button type="submit" class="btn btn-primary" onClick={toast1}>Update</button>
@@ -147,8 +151,7 @@ export const UpdateRole = () => {
                     </div>
                 </div>
             </div>
+
         </>
     )
 }
-
-

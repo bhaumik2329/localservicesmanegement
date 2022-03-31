@@ -50,51 +50,22 @@ export const Login = () => {
     const login = (e) => {
         e.preventDefault()
 
-        if (email == 'admin@gmail.com' && password == 'admin') {
-            localStorage.setItem('email', email)
-            localStorage.setItem('password', password)
-            navigate('/admin/Dashboard')
+
+        var data = {
+            email: email,
+            password: password
         }
-        else {
 
+        axios.post('http://localhost:4000/login', data).then(res => {
+            console.log(res.data.msg)
+            var msg = res.data.msg
 
+            if (res.data.status == 200 && email == 'admin@gmail.com') {
+                localStorage.setItem('email', email)
 
-
-
-            var data = {
-                email: email,
-                password: password
-            }
-
-            axios.post('http://localhost:4000/login', data).then(res => {
-                // console.log(res.data.msg)
-                var msg = res.data.msg
-
-                if (res.data.msg == "Login...") {
-                    navigate('/Home')
-
-                    alert(`${msg}`)
-
-                    localStorage.setItem('email', email)
-                    localStorage.setItem('password', password)
-
-                }
-                else {
-                    toast.error(`🦄${msg}`, {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark"
-                    });
-                }
-            }).catch(err => {
-                toast.error(`🦄${err}`, {
+                toast.success(`Admin Login`, {
                     position: "top-center",
-                    autoClose: 2500,
+                    autoClose: 1500,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -102,13 +73,62 @@ export const Login = () => {
                     progress: undefined,
                     theme: "dark"
                 });
-            })
 
-        }
+                setTimeout(() => {
+                    navigate('/admin/Dashboard')
+
+                }, 1500);
 
 
 
+            }
+            else if (res.data.status == 200) {
+                localStorage.setItem('email', email)
 
+                toast.success(`🦄${msg}`, {
+                    position: "top-center",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+
+                setTimeout(() => {
+                    navigate('/Home')
+
+                }, 1500);
+
+            }
+
+            else {
+                toast.error(`🦄${msg}`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+            }
+
+
+        }).catch(err => {
+            toast.error(`🦄${err}`, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+        })
 
 
 
@@ -169,6 +189,8 @@ export const Login = () => {
                                             </div>
                                             <div class="register-link m-t-15 text-center">
                                                 <p>Don't have account ? <Link to="/Signup"> Sign Up Here</Link></p>
+                                                <p><Link to="/Home"> Home Page</Link></p>
+
                                             </div>
                                         </form>
                                     </div>

@@ -7,22 +7,28 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AdminNavbar } from '../components/AdminNavbar'
 
-export const UpdateRole = () => {
+export const UpdateCatagory = () => {
     const toast1 = () => { }
+
+
 
 
     var id = useParams().id;
 
-    const [role, setRole] = useState('')
-    const [roleName, setRoleName] = useState('')
+    const [catagory, setcatagory] = useState([])
+    const [serviceId, setserviceId] = useState()
+    const [catagoryName, setcatagoryName] = useState()
+    const [description, setdescription] = useState()
+
 
 
     const getData = () => {
 
-        axios.get(`http://localhost:4000/roles/${id}`).then(res => {
+        axios.get(`http://localhost:4000/catagories/${id}`).then(res => {
 
-            setRole(res.data.data)
+            setcatagory(res.data.data)
             console.log(res.data.data)
+
 
         }).catch(err => {
             console.log(err);
@@ -30,51 +36,61 @@ export const UpdateRole = () => {
     }
 
 
+
     useEffect(() => {
         getData()
+        setserviceId(catagory.service)
+        setcatagoryName(catagory.catagoryName)
+        setdescription(catagory.description)
     }, [])
-
-
 
 
     const updateData = (e) => {
 
         var updateData = {
-            roleId: id,
-            roleName: roleName,
+            catagoryId: id,
+            service: serviceId,
+            catagoryName: catagoryName,
+            description: description
         }
         e.preventDefault()
 
-        axios.put('http://localhost:4000/roles', updateData).then(res => {
-            toast.success('🦄 Data Deleted Successfully!', {
-                position: "top-center",
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark"
-            });
+        axios.put('http://localhost:4000/catagories', updateData).then(res => {
+            console.log(res.data)
+            if (res.data.status == 200) {
+
+                toast.success('🦄 Data Updated Successfully!', {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+            }
+            else {
+                toast.error(res.data.msg, {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+            }
         })
 
 
 
     }
 
-
-
-
-
-
-
-
-
-
     return (
         <>
             <div>
-
                 <AdminNavbar />
 
 
@@ -96,7 +112,7 @@ export const UpdateRole = () => {
                                         <div class="page-title">
                                             <ol class="breadcrumb">
                                                 <li class="breadcrumb-item"><Link to="#">Admin/</Link></li>
-                                                <li class="breadcrumb-item active">Roles update</li>
+                                                <li class="breadcrumb-item active">Users update</li>
                                             </ol>
                                         </div>
                                     </div>
@@ -108,9 +124,7 @@ export const UpdateRole = () => {
                 </div>
                 {/* welcome completed */}
 
-
-
-
+                {/* update */}
                 <div class="header">
                     <div class="container-fluid">
                         <div class="container">
@@ -118,14 +132,25 @@ export const UpdateRole = () => {
 
                                 <form onSubmit={updateData}>
                                     <div class="form-group">
-                                        <label for="role id">Role Id</label>
-                                        <input type="text" class="form-control" Value={role._id}
+                                        <label for="catagory id">Catagory Id</label>
+                                        <input type="text" class="form-control" defaultValue={catagory._id}
                                             disabled />
                                     </div>
                                     <div class="form-group">
-                                        <label for="role name">Role Name</label>
-                                        <input type="text" class="form-control" Value={role.roleName}
-                                            onChange={(e) => setRoleName(e.target.value)} />
+                                        <label for="">Service Id</label>
+                                        <input type="text" class="form-control" defaultValue={catagory.service}
+                                            onChange={(e) => setserviceId(e.target.value)} ></input>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="catagory name">catagory Name</label>
+                                        <input type="text" class="form-control" onChange={(e) => { setcatagoryName(e.target.value) }} defaultValue={catagory.catagoryName} />
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="">Description</label>
+                                        <input type="text" class="form-control" defaultValue={catagory.description}
+                                            onChange={(e) => setdescription(e.target.value)} />
                                     </div>
 
                                     <button type="submit" class="btn btn-primary" onClick={toast1}>Update</button>
@@ -146,9 +171,8 @@ export const UpdateRole = () => {
                         </div>
                     </div>
                 </div>
+
             </div>
         </>
     )
 }
-
-

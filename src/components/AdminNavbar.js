@@ -31,8 +31,13 @@ export const AdminNavbar = () => {
                             </li>
 
                             <li class="label">tables</li>
-                            <li><Link class="sidebar-sub-toggle" to="/GetRole"><i class="ti-desktop"></i> Roles </Link>
-                            </li>
+                            <li><Link class="sidebar-sub-toggle" to="/GetRole"><i class="ti-desktop"></i> Roles </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/GetUser"><i class="ti-desktop"></i> Users </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/GetService"><i class="ti-desktop"></i> Services </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/GetCatagory"><i class="ti-desktop"></i> Catagories </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/"><i class="ti-desktop"></i> Vice Catagories </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/"><i class="ti-desktop"></i> User Services </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/"><i class="ti-desktop"></i> User Feedback </Link></li>
                         </ul>
                     </div>
                 </div>

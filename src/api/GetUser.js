@@ -1,10 +1,9 @@
-
 import React from 'react'
+import { AdminNavbar } from '../components/AdminNavbar'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,22 +13,28 @@ import '../assets/css/lib/owl.carousel.min.css'
 import '../assets/css/lib/owl.theme.default.min.css'
 import '../assets/css/lib/weather-icons.css'
 import '../assets/css/lib/menubar/sidebar.css'
-import { AdminNavbar } from '../components/AdminNavbar'
 
+export const GetUser = () => {
 
-export const GetRole = () => {
     const toast1 = () => { }
 
 
+    const [userList, setuserList] = useState([])
+    const [firstName, setfirstName] = useState()
+    const [email, setemail] = useState()
+    const [password, setpassword] = useState()
+    const [address, setaddress] = useState()
+    const [pinCode, setpinCode] = useState()
+    const [city, setcity] = useState()
+    const [state, setstate] = useState()
+    const [contactNum, setcontactNum] = useState()
 
 
-    const [roleList, setroleList] = useState([])
-    const [roleName, setRoleName] = useState('');
 
     const getData = () => {
 
-        axios.get('http://localhost:4000/roles').then(data => {
-            setroleList(data.data.data)
+        axios.get('http://localhost:4000/users').then(data => {
+            setuserList(data.data.data)
             console.log(data.data.data)
         }).catch(err => {
             console.log(err);
@@ -38,7 +43,7 @@ export const GetRole = () => {
 
     const deleteData = (id) => {
         var id = id
-        axios.delete(`http://localhost:4000/roles/` + id).then(res => {
+        axios.delete(`http://localhost:4000/users/` + id).then(res => {
 
 
             toast.success('🦄 Data Deleted Successfully!', {
@@ -53,9 +58,20 @@ export const GetRole = () => {
             });
 
         }).catch(err => {
-            console.log(err)
+            toast.error(err, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
         })
     }
+
+
 
     const postData = (e) => {
 
@@ -63,14 +79,21 @@ export const GetRole = () => {
 
 
         var data = {
-            roleName: roleName
+            firstName: firstName,
+            email: email,
+            password: password,
+            address: address,
+            cityName: city,
+            pinCode: pinCode,
+            stateName: state,
+            contactNum: contactNum,
         }
 
-        axios.post('http://localhost:4000/roles', data).then(res => {
+        axios.post('http://localhost:4000/users', data).then(res => {
             console.log(res.data.data)
 
 
-            toast.success(`🦄 Role Added Successfully!`, {
+            toast.success(`🦄 User Added Successfully!`, {
                 position: "top-center",
                 autoClose: 2500,
                 hideProgressBar: false,
@@ -84,10 +107,20 @@ export const GetRole = () => {
 
 
         }).catch(err => {
-            console.log(err)
+            toast.error(err, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
         })
 
     }
+
 
 
 
@@ -100,7 +133,7 @@ export const GetRole = () => {
             <div>
                 <AdminNavbar />
 
-                {/* welcome */}
+                {/* new */}
                 <div class="content-wrap">
                     <div class="main">
                         <div class="container-fluid">
@@ -118,7 +151,7 @@ export const GetRole = () => {
                                         <div class="page-title">
                                             <ol class="breadcrumb">
                                                 <li class="breadcrumb-item"><Link to="#">Admin/</Link></li>
-                                                <li class="breadcrumb-item active">Roles</li>
+                                                <li class="breadcrumb-item active">Users</li>
                                             </ol>
                                         </div>
                                     </div>
@@ -128,20 +161,29 @@ export const GetRole = () => {
                         </div>
                     </div>
                 </div>
-                {/* welcome completed */}
 
-                {/* add role */}
+
+
+                {/* add User */}
                 <div class="header">
                     <div class="container-fluid">
                         <div class="">
                             <div class="col-lg-12">
-                                <h3>Add Role</h3>
+                                <h3>Add User</h3>
                                 <form onSubmit={postData} method="POST">
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name='roleName' placeholder='roleName' onChange={(e) => { setRoleName(e.target.value) }} />
+                                        <input type="text" class="form-control" name='firstName' placeholder='firstName' onChange={(e) => { setfirstName(e.target.value) }} required />
+                                        <input type="email" class="form-control" name='email' placeholder='email' onChange={(e) => { setemail(e.target.value) }} required />
+                                        <input type="password" class="form-control" name='password' placeholder='password' onChange={(e) => { setpassword(e.target.value) }} required />
+                                        <textarea type="" class="form-control" name='address' placeholder='address' onChange={(e) => { setaddress(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='city' placeholder='city' onChange={(e) => { setcity(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='pincode' placeholder='pincode' onChange={(e) => { setpinCode(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='state' placeholder='state' onChange={(e) => { setstate(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='contactnumber' placeholder='contact number' onChange={(e) => { setcontactNum(e.target.value) }} required />
+
 
                                     </div>
-                                    <input class="btn btn-primary" type="submit" value="Add Role" onClick={toast1} />
+                                    <input class="btn btn-primary" type="submit" value="Add User" onClick={toast1} />
                                     <ToastContainer
                                         position="top-center"
                                         autoClose={2500}
@@ -165,7 +207,6 @@ export const GetRole = () => {
 
                 <br /><br /><br />
 
-
                 {/* table */}
                 <div class="header">
                     <div class="container-fluid">
@@ -175,8 +216,16 @@ export const GetRole = () => {
                                     <table class="table table-dark table-striped">
                                         <thead class="">
                                             <tr>
-                                                <th scope="col">RoleId</th>
+                                                <th scope="col">UserId</th>
+                                                <th scope="col">FirstName</th>
+                                                <th scope="col">Email Id</th>
+                                                <th scope="col">Password</th>
                                                 <th scope="col">RoleName</th>
+                                                <th scope="col">Address</th>
+                                                <th scope="col">PinCode</th>
+                                                <th scope="col">City</th>
+                                                <th scope="col">State</th>
+                                                <th scope="col">Contanct Number</th>
                                                 <th scope="col"></th>
                                                 <th scope="col"></th>
 
@@ -187,19 +236,28 @@ export const GetRole = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                roleList.map((role) => {
+                                                userList.map((user) => {
                                                     return (
                                                         <>
 
                                                             <tr>
-                                                                <th scope="row">{role._id}</th>
-                                                                <td>{role.roleName}</td>
+                                                                <th scope="row">{user._id}</th>
+                                                                <td>{user.firstName}</td>
+                                                                <td>{user.email}</td>
+                                                                <td>{user.password}</td>
+
+                                                                <td>{user.role.roleName}</td>
+                                                                <td>{user.address}</td>
+                                                                <td>{user.pinCode}</td>
+                                                                <td>{user.cityName}</td>
+                                                                <td>{user.stateName}</td>
+                                                                <td>{user.contactNum}</td>
                                                                 <td>
-                                                                    <button className="btn btn-danger" onClick={() => { deleteData(role._id) }} >Delete</button>
+                                                                    <button className="btn btn-danger" onClick={() => { deleteData(user._id) }} >Delete</button>
 
                                                                 </td>
                                                                 <td>
-                                                                    <Link to={`/updateRole/${role._id}`} className="btn btn-success">UPDATE</Link>
+                                                                    <Link to={`/updateUser/${user._id}`} className="btn btn-success">UPDATE</Link>
                                                                 </td>
 
 
@@ -225,15 +283,7 @@ export const GetRole = () => {
 
 
 
-
-
-
-
-
-
-
             </div>
-
         </>
     )
 }

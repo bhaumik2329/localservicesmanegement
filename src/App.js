@@ -16,14 +16,18 @@ import { UpdatePass } from './components/UpdatePass';
 
 //admin import 
 
-import AdminNavbar from "./admincomponents/AdminNavbar"
 import { UserRegistration } from "./admincomponents/UserRegistration";
-import { RoleAPI } from "./api/RoleAPI";
 import { GetRole } from "./api/GetRole"
-import { DeleteRole } from "./api/DeleteRole";
+import { GetUser } from './api/GetUser';
 import { UpdateRole } from './api/UpdateRole'
 import { AdminDashboard } from './admincomponents/AdminDashboard';
 import { Logout } from './components/Logout';
+import { UpdateUser } from './api/UpdateUser';
+import { GetService } from './api/GetService';
+import { UpdateService } from './api/UpdateService';
+import { GetCatagory } from './api/GetCatagory';
+import { GetViceCatagory } from './api/GetViceCatagory';
+import { UpdateCatagory } from './api/UpdateCatagory';
 
 
 
@@ -51,7 +55,7 @@ function App() {
 
       {/* < GetRole /> */}
 
-      {/* <RoleAPI /> */}
+
       {/* <UserRegistration /> */}
       {/* <AdminNavbar /> */}
       {/* <AdminDashboard /> */}
@@ -86,13 +90,37 @@ function App() {
 
       {/* admin roots */}
       <Routes>
-        <Route path="/update/:id" element={<UpdateRole />}></Route>
+        <Route path="/updateRole/:id" element={<UpdateRole />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/updateUser/:id" element={<UpdateUser />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/updateService/:id" element={<UpdateService />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/updateCatagory/:id" element={<UpdateCatagory />}></Route>
       </Routes>
       <Routes>
         <Route path="/admin/Dashboard" element={<AdminDashboard />}></Route>
       </Routes>
       <Routes>
         <Route path="/GetRole" element={<GetRole />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/GetUser" element={<GetUser />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/GetService" element={<GetService />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/GetCatagory" element={<GetCatagory />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/addcatagory/:id" element={<GetCatagory />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/addViceCatagory/:id" element={<GetViceCatagory />}></Route>
       </Routes>
     </div>
   );

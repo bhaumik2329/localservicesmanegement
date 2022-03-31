@@ -2,6 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import '../assets/css/lib/font-awesome.min.css'
 import '../assets/css/lib/themify-icons.css'
@@ -18,7 +20,7 @@ export const SignUp = () => {
     const [address, setaddress] = useState('')
     const [stateName, setstateName] = useState('')
     const [cityName, setcityName] = useState('')
-    const [PinCode, setpinCode] = useState('')
+    const [pinCode, setpinCode] = useState('')
     const [contactNum, setcontactNum] = useState('')
 
 
@@ -69,7 +71,7 @@ export const SignUp = () => {
             address: address,
             stateName: stateName,
             cityName: cityName,
-            PinCode: PinCode,
+            pinCode: pinCode,
             contactNum: contactNum
 
         }
@@ -80,11 +82,30 @@ export const SignUp = () => {
         axios.post('http://localhost:4000/users', data).then(res => {
             if (res.data.msg == "email already exists") {
 
-                console.log(res.data)
-                alert("Email already exists")
+                // console.log(res.data)
+                toast.warning('🦄 Email already exists', {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
             }
             else {
-                alert("Data added succesfully")
+                console.log(data)
+                toast.success('🦄 User Added Successfully!', {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
             }
         }).catch(err => {
             console.log(err)
@@ -151,6 +172,17 @@ export const SignUp = () => {
                                                 </label>
                                             </div>
                                             <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30" >Register</button>
+                                            <ToastContainer
+                                                position="top-center"
+                                                autoClose={2500}
+                                                hideProgressBar={false}
+                                                newestOnTop={false}
+                                                closeOnClick
+                                                rtl={false}
+                                                pauseOnFocusLoss
+                                                draggable
+                                                pauseOnHover
+                                            />
                                             <div class="social-login-content">
                                                 <div class="social-button">
                                                     <button type="button" class="btn btn-primary bg-facebook btn-flat btn-addon m-b-10"><i class="ti-facebook"></i>Register with facebook</button>
@@ -159,6 +191,8 @@ export const SignUp = () => {
                                             </div>
                                             <div class="register-link m-t-15 text-center">
                                                 <p>Already have account ? <Link to="/Login"> Sign in</Link></p>
+                                                <p><Link to="/Home"> Home Page</Link></p>
+
                                             </div>
                                         </form>
                                     </div>
