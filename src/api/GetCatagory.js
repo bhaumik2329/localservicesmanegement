@@ -138,7 +138,7 @@ export const GetCatagory = () => {
                                         <div class="page-title">
                                             <ol class="breadcrumb">
                                                 <li class="breadcrumb-item"><Link to="#">Admin/</Link></li>
-                                                <li class="breadcrumb-item active">Services</li>
+                                                <li class="breadcrumb-item active">Catagories</li>
                                             </ol>
                                         </div>
                                     </div>
@@ -206,6 +206,7 @@ export const GetCatagory = () => {
 
                                                 <th scope="col"></th>
                                                 <th scope="col"></th>
+                                                <th scope="col"></th>
 
 
 
@@ -230,6 +231,9 @@ export const GetCatagory = () => {
                                                                 </td>
                                                                 <td>
                                                                     <Link to={`/updateCatagory/${catagory._id}`} className="btn btn-success">UPDATE</Link>
+                                                                </td>
+                                                                <td>
+                                                                    <Link to={`/addViceCatagory/${catagory.service._id}/${catagory._id}`} className="btn btn-success">Add ViceCatagory</Link>
                                                                 </td>
 
 

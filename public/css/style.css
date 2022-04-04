@@ -548,3 +548,8 @@ h6,
   width: 6rem;
   height: 6rem;
 }
+
+.d-flex.flex-shrink-0.align-items-center.justify-content-center.bg-light {
+  width: 65px;
+  height: 65px;
+}

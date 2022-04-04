@@ -4,9 +4,15 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { UpdatePass } from './UpdatePass'
 import { Route, Routes } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 export const ForgotPass = () => {
+    const toast1 = () => { }
+
 
     const [email, setemail] = useState('')
     const [disable1, setdisable1] = useState(true)
@@ -28,19 +34,42 @@ export const ForgotPass = () => {
 
         axios.post('http://localhost:4000/sendotp', data).then(res => {
             console.log(res.data)
-            // console.log(res.data.data.data[0]._id)
-            setid(res.data.data.data[0]._id)
 
-            setmaindata(res.data.data.myotp)
-            if (res.data.status === 200) {
+            setmaindata(res.data.myotp)
+
+            // console.log(res.data.data.data[0]._id)
+            setid(res.data.data1[0]._id)
+
+            if (res.data.status == 200) {
+                toast.success(`🦄  Otp sent Successfully!`, {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
                 setdisable1(false)
                 setmsg('')
                 setomsg('Enter Otp')
             }
 
         }).catch(err => {
+            toast.error(err, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            })
             console.log(err)
         })
+
     }
 
     const compareOtp = (e) => {
@@ -50,12 +79,33 @@ export const ForgotPass = () => {
         else {
             setomsg('')
             if (e.target.value == maindata) {
+
+                toast.success(`🦄  Correct Otp!`, {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
                 setdisable3(false)
                 console.log('correct otp')
                 setdisable2(true)
 
             }
             else {
+                toast.error(`Incorrect Otp`, {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                })
                 console.log("Incorrect otp")
             }
         }
@@ -71,9 +121,9 @@ export const ForgotPass = () => {
 
 
 
-            <div >
+            <div>
                 <div class="unix-login">
-                    <div class="container-fluid">
+                    <div class="container-fluid bg-dark">
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
                                 <div class="login-content">
@@ -93,7 +143,18 @@ export const ForgotPass = () => {
                                                 <small className='msg'>{omsg}</small>
                                             </div>
 
-                                            <button type="submit" class="btn btn-primary btn-flat m-b-15" disabled={disable2}>Submit</button>
+                                            <button type="submit" class="btn btn-primary btn-flat m-b-15" disabled={disable2} onClick={toast1}>Submit</button>
+                                            <ToastContainer
+                                                position="top-center"
+                                                autoClose={2500}
+                                                hideProgressBar={false}
+                                                newestOnTop={false}
+                                                closeOnClick
+                                                rtl={false}
+                                                pauseOnFocusLoss
+                                                draggable
+                                                pauseOnHover
+                                            />
 
                                         </form>
                                         <form action={`/UpdatePass/${id}`} >

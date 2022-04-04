@@ -7,30 +7,24 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AdminNavbar } from '../components/AdminNavbar'
 
-export const UpdateUser = () => {
+
+export const UpdateViceCatagory = () => {
     const toast1 = () => { }
-
-
-
 
     var id = useParams().id;
 
-    const [user, setuser] = useState([])
-    const [firstName, setfirstName] = useState()
-    const [email, setemail] = useState()
-    const [password, setpassword] = useState()
-    const [address, setaddress] = useState()
-    const [pinCode, setpinCode] = useState()
-    const [city, setcity] = useState()
-    const [state, setstate] = useState()
-    const [contactNum, setcontactNum] = useState()
+    const [vicecatagory, setvicecatagory] = useState([])
+    const [serviceId, setserviceId] = useState()
+    const [catagoryId, setcatagoryId] = useState()
+    const [vCatagoryName, setvCatagoryName] = useState()
+    const [servicePrice, setservicePrice] = useState()
 
 
     const getData = () => {
 
-        axios.get(`http://localhost:4000/users/${id}`).then(res => {
+        axios.get(`http://localhost:4000/vicecatagories/${id}`).then(res => {
 
-            setuser(res.data.data)
+            setvicecatagory(res.data.data)
             console.log(res.data.data)
 
 
@@ -39,35 +33,27 @@ export const UpdateUser = () => {
         })
     }
 
-
-
     useEffect(() => {
         getData()
-        setfirstName(user.firstName)
-        setemail(user.email)
-        setaddress(user.address)
-        setpinCode(user.pinCode)
-        setcity(user.cityName)
-        setstate(user.stateName)
-        setcontactNum(user.contactNum)
+        setserviceId(vicecatagory.service)
+        setcatagoryId(vicecatagory.catagory)
+        setvCatagoryName(vicecatagory.vCatagoryName)
+        setservicePrice(vicecatagory.servicePrice)
     }, [])
 
 
     const updateData = (e) => {
 
         var updateData = {
-            userId: id,
-            firstName: firstName,
-            email: email,
-            address: address,
-            cityName: city,
-            pinCode: pinCode,
-            stateName: state,
-            contactNum: contactNum,
+            vCatagoryId: id,
+            service: serviceId,
+            catagory: catagoryId,
+            vCatagoryName: vCatagoryName,
+            servicePrice: servicePrice
         }
         e.preventDefault()
 
-        axios.put('http://localhost:4000/users', updateData).then(res => {
+        axios.put('http://localhost:4000/vicecatagories', updateData).then(res => {
             console.log(res.data)
             if (res.data.status == 200) {
 
@@ -101,9 +87,14 @@ export const UpdateUser = () => {
     }
 
 
+
+
+
+
     return (
         <>
             <div>
+
                 <AdminNavbar />
 
 
@@ -125,7 +116,7 @@ export const UpdateUser = () => {
                                         <div class="page-title">
                                             <ol class="breadcrumb">
                                                 <li class="breadcrumb-item"><Link to="#">Admin/</Link></li>
-                                                <li class="breadcrumb-item active">userupdate</li>
+                                                <li class="breadcrumb-item active">Vicecatagoryupdate</li>
                                             </ol>
                                         </div>
                                     </div>
@@ -145,49 +136,31 @@ export const UpdateUser = () => {
 
                                 <form onSubmit={updateData}>
                                     <div class="form-group">
-                                        <label for="user id">User Id</label>
-                                        <input type="text" class="form-control" defaultValue={user._id}
+                                        <label for="catagory id">ViceCatagory Id</label>
+                                        <input type="text" class="form-control" defaultValue={vicecatagory._id}
                                             disabled />
                                     </div>
                                     <div class="form-group">
-                                        <label for="first name">First Name</label>
-                                        <input type="text" class="form-control" onChange={(e) => { setfirstName(e.target.value) }} defaultValue={user.firstName} />
+                                        <label for="">Service Id</label>
+                                        <input type="text" class="form-control" defaultValue={vicecatagory.service}
+                                            onChange={(e) => setserviceId(e.target.value)} ></input>
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Email</label>
-                                        <input type="email" class="form-control" defaultValue={user.email}
-                                            onChange={(e) => setemail(e.target.value)} />
+                                        <label for="">Catagory Id</label>
+                                        <input type="text" class="form-control" defaultValue={vicecatagory.catagory}
+                                            onChange={(e) => setcatagoryId(e.target.value)} ></input>
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Password</label>
-                                        <input type="password" class="form-control" defaultValue={user.password}
-                                            onChange={(e) => setpassword(e.target.value)} disabled />
+                                        <label for="catagory name">ViceCatagory Name</label>
+                                        <input type="text" class="form-control" onChange={(e) => { setvCatagoryName(e.target.value) }} defaultValue={vicecatagory.vCatagoryName} />
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Address</label>
-                                        <input type="text" class="form-control" defaultValue={user.address}
-                                            onChange={(e) => setaddress(e.target.value)} ></input>
+                                        <label for="catagory name">Service Price</label>
+                                        <input type="text" class="form-control" onChange={(e) => { setservicePrice(e.target.value) }} defaultValue={vicecatagory.servicePrice} />
                                     </div>
-                                    <div class="form-group">
-                                        <label for="">City</label>
-                                        <input type="text" class="form-control" defaultValue={user.cityName}
-                                            onChange={(e) => setcity(e.target.value)} />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">PinCode</label>
-                                        <input type="text" class="form-control" defaultValue={user.pinCode}
-                                            onChange={(e) => setpinCode(e.target.value)} />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">State</label>
-                                        <input type="text" class="form-control" defaultValue={user.stateName}
-                                            onChange={(e) => setstate(e.target.value)} />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Contact Number</label>
-                                        <input type="text" class="form-control" defaultValue={user.contactNum}
-                                            onChange={(e) => setcontactNum(e.target.value)} />
-                                    </div>
+
+
+
 
                                     <button type="submit" class="btn btn-primary" onClick={toast1}>Update</button>
                                     <ToastContainer
@@ -207,6 +180,7 @@ export const UpdateUser = () => {
                         </div>
                     </div>
                 </div>
+
 
             </div>
         </>

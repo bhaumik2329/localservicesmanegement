@@ -1,12 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import icon1 from '../img/icons/icon-1.png'
 import carousel1 from '../img/carousel-1.jpg'
 import about1 from '../img/about-1.jpg'
 import about2 from '../img/about-2.jpg'
+import test1 from '../img/testimonial-1.jpg'
+import test2 from '../img/testimonial-2.jpg'
+import test3 from '../img/testimonial-3.jpg'
+import service1 from '../img/service-1.jpg'
 import { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
+
 
 
 // css
@@ -18,6 +25,7 @@ import '../lib/owlcarousel/assets/owl.carousel.min.css'
 import '../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'
 import '../css/bootstrap.min.css'
 import '../css/style.css'
+import { Navbar } from './Navbar'
 
 
 // js
@@ -32,42 +40,117 @@ import '../css/style.css'
 
 
 export const Home = () => {
+    const toast1 = () => { }
+
+    let navigate = useNavigate()
 
 
-    const [email, setemail] = useState('')
-    const [password, setpassword] = useState('')
 
+    const [service, setservice] = useState([])
+
+
+    const [name, setname] = useState()
+    const [email, setemail] = useState()
+    const [uemail, setuemail] = useState()
+
+    const [mobile, setmobile] = useState()
+    const [vCatagoryName, setvCatagoryName] = useState()
+    const [date, setdate] = useState()
+
+    const [address, setaddress] = useState()
+
+    const getData = () => {
+
+        axios.get('http://localhost:4000/services').then(data => {
+            setservice(data.data.data)
+            console.log(data.data.data)
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
     useEffect(() => {
-        setemail(localStorage.getItem('email'))
-        setpassword(localStorage.getItem('password'))
+        getData()
+        setuemail(localStorage.getItem('email'))
+    }, [])
+
+
+    const submit = (e) => {
+        e.preventDefault()
+
+        if (uemail == null) {
+            navigate('/Login')
+        }
+        else if (uemail == email) {
+
+
+            var data = {
+
+
+                subject: "Service Appointment Booked",
+
+
+                name: name,
+                email: email,
+                mobile: mobile,
+                vCatagoryName: vCatagoryName,
+                address: address,
+                date: date
 
 
 
 
+            }
 
 
-    })
+            axios.post('http://localhost:4000/email', data).then(res => {
+                console.log(res.data.data)
+
+
+                toast.success(`🦄  Appointment booked Successfully.... You will get a call from us!`, {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
 
 
 
+            }).catch(err => {
+                toast.error(err, {
+                    position: "top-center",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+            })
 
-    // console.log(email)
-    const p1 = email != "admin@gmail.com" && email != null ?
+        }
 
-        <>
-            <Link to="" class="btn btn-primary py-2 mx-2 d-none d-lg-block">Profile</Link>
-            <Link to="/Logout" class="btn btn-primary py-2 mx-2 d-none d-lg-block">Logout</Link>
+        else {
+            toast.error("Invalid Email", {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+        }
 
-        </>
+    }
 
 
-
-        :
-        <>
-            <Link to="/SignUp" class="btn btn-primary py-2 mx-2 d-none d-lg-block ">Sign Up</Link>
-            <Link to="/Login" class="btn btn-primary py-2 mx-2 d-none d-lg-block">Login</Link>
-        </>
 
     return (
         <>
@@ -76,71 +159,10 @@ export const Home = () => {
 
                 {/* <!-- Spinner Start --> */}
                 {/* <div class="spinner-border position-relative text-primary" role="status"></div> */}
-                <img class="position-absolute top-50 start-50 translate-middle" src={icon1} alt="Icon" />
                 {/* <!-- Spinner End --> */}
 
 
-                {/* <!-- Topbar Start --> */}
-                <div class="container-fluid bg-dark p-0 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="row gx-0 d-none d-lg-flex">
-                        <div class="col-lg-7 px-5 text-start">
-                            <div class="h-100 d-inline-flex align-items-center py-3 me-3">
-                                {/* <a class="text-body px-2" href="tel:+0123456789"><i class="fa fa-phone-alt text-primary me-2"></i>+012 345 6789</a> */}
-                                <a class="text-body px-2" href="mailto:info@example.com"><i class="fa fa-envelope-open text-primary me-2"></i>info@example.com</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 px-5 text-end">
-                            <div class="h-100 d-inline-flex align-items-center py-3 me-2">
-                                <a class="text-body px-2" href="">Terms</a>
-                                <a class="text-body px-2" href="">Privacy</a>
-                            </div>
-                            <div class="h-100 d-inline-flex align-items-center">
-                                <a class="btn btn-sm-square btn-outline-body me-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-outline-body me-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-outline-body me-1" href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a class="btn btn-sm-square btn-outline-body me-0" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* <!-- Topbar End --> */}
-
-                {/* <!-- Navbar Start --> */}
-                <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-                    <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
-                        <h1 class="text-primary m-0"><img class="me-3" src={icon1} alt="Icon" />Online Local Services</h1>
-                    </a>
-                    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto p-4 p-lg-0">
-                            <Link to="/Home" class="nav-item nav-link">Home</Link>
-                            <Link to="/About" class="nav-item nav-link">About</Link>
-                            <Link to="Service.js" class="nav-item nav-link">Services</Link>
-                            <div class="nav-item dropdown">
-                                <Link to="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</Link>
-                                <div class="dropdown-menu border-0 m-0">
-                                    {/* <a href="feature.html" class="dropdown-item">Our Features</a>
-                                    <a href="project.html" class="dropdown-item">Our Projects</a>
-                                    <a href="team.html" class="dropdown-item">Team Members</a>
-                                    <a href="appointment.html" class="dropdown-item">Appointment</a>
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a> */}
-                                </div>
-                            </div>
-                            <Link to="Contact.js" class="nav-item nav-link">Contact</Link>
-                        </div>
-                        {p1}
-
-
-                        <Link to="Home.js" class="btn btn-primary py-2 mx-2 d-none d-lg-block ">Appointment</Link>
-                    </div>
-                </nav>
-                {/* <!-- Navbar End --> */}
-
-
-
+                <Navbar />
 
 
                 {/* <!-- Carousel Start --> */}
@@ -152,9 +174,9 @@ export const Home = () => {
                                 <div class="container">
                                     <div class="row justify-content-start">
                                         <div class="col-10 col-lg-8">
-                                            <h1 class="display-1 text-white animated slideInDown">Best Architecture And Interior Design Services</h1>
-                                            <p class="fs-5 fw-medium text-white mb-4 pb-3">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-                                            <a href="" class="btn btn-primary py-3 px-5 animated slideInLeft">Read More</a>
+                                            <h1 class="display-1 text-white animated slideInDown">Best Online Local Services</h1>
+                                            <p class="fs-5 fw-medium text-white mb-4 pb-3">We are providing all types of local services which you can get it online.</p>
+                                            {/* <a href="" class="btn btn-primary py-3 px-5 animated slideInLeft">Read More</a> */}
                                         </div>
                                     </div>
                                 </div>
@@ -178,20 +200,10 @@ export const Home = () => {
                             </div>
                             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                                 <h4 class="section-title">About Us</h4>
-                                <h1 class="display-5 mb-4">A Creative Architecture Agency For Your Dream Home</h1>
-                                <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                                <p class="mb-4">Stet no et lorem dolor et diam, amet duo ut dolore vero eos. No stet est diam rebum amet diam ipsum. Clita clita labore, dolor duo nonumy clita sit at, sed sit sanctus dolor eos.</p>
-                                <div class="d-flex align-items-center mb-5">
-                                    {/* <div class="d-flex flex-shrink-0 align-items-center justify-content-center border border-5 border-primary" style="width: 120px; height: 120px;"> */}
-                                    <h1 class="display-1 mb-n2" data-toggle="counter-up">25</h1>
-                                    {/* </div> */}
-                                    <div class="ps-4">
-                                        <h3>Years</h3>
-                                        <h3>Working</h3>
-                                        <h3 class="mb-0">Experience</h3>
-                                    </div>
-                                </div>
-                                <a class="btn btn-primary py-3 px-5" href="">Read More</a>
+                                <h1 class="display-5 mb-4">A Creative Local Services Agency For Your Dream Home</h1>
+                                <p> We are big online organization who provides local services such as plumbing,carpenting and many more</p>
+                                <p class="mb-4">Services have multiple catagories and catagories have numerous vice catagories.</p>
+
                             </div>
                         </div>
                     </div>
@@ -205,81 +217,298 @@ export const Home = () => {
                     <div class="container">
                         <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s">
                             <h4 class="section-title">Our Services</h4>
-                            <h1 class="display-5 mb-4">We Focused On Modern Architecture And Interior Design</h1>
+                            <h1 class="display-5 mb-4">We Focused On Modern Online Services</h1>
                         </div>
                     </div>
 
                     <div class="row g-4">
-                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="service-item d-flex position-relative text-center h-100">
-                                <img class="bg-img" src="img/service-1.jpg" alt="" />
-                                <div class="service-text p-5">
-                                    <img class="mb-4" src="img/icons/icon-5.png" alt="Icon" />
-                                    <h3 class="mb-3">Architecture</h3>
-                                    <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                                    <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Read More</a>
+
+                        {
+
+                            service.slice(0, 3).map((service) => {
+                                return (
+                                    <>
+
+                                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                            <div class="service-item d-flex position-relative text-center h-100">
+                                                <img class="bg-img" src={service1} alt="" />
+                                                <div class="service-text p-5">
+                                                    <img class="mb-4" src="img/icons/icon-5.png" alt="Icon" />
+                                                    <h3 class="mb-3">{service.serviceName}</h3>
+                                                    <p class="mb-4">If you want to show catagories of {service.serviceName} then click the below button</p>
+                                                    <Link class="btn" to={`/Catagories/${service._id}`}><i class="fa fa-plus text-primary me-3"></i>Show More</Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                )
+                            })
+
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+            {/* <!-- Service End --> */}
+
+
+            {/* <!-- Team Start --> */}
+            <div class="container-xxl py-5">
+                <div class="container">
+                    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" >
+                        <h4 class="section-title">Service Providers</h4>
+                        <h1 class="display-5 mb-4">We Are Creative Service Providers Team For Your House</h1>
+                    </div>
+                    <div class="row g-0 team-items">
+                        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="team-item position-relative">
+                                <div class="position-relative">
+                                    <img class="img-fluid" src="img/team-1.jpg" alt="" />
+                                    <div class="team-social text-center">
+                                        <a class="btn btn-square" href=""><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-square" href=""><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-square" href=""><i class="fab fa-instagram"></i></a>
+                                    </div>
+                                </div>
+                                <div class="bg-light text-center p-4">
+                                    <h3 class="mt-2">Architect Name</h3>
+                                    <span class="text-primary">Designation</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                            <div class="service-item d-flex position-relative text-center h-100">
-                                <img class="bg-img" src="img/service-2.jpg" alt="" />
-                                <div class="service-text p-5">
-                                    <img class="mb-4" src="img/icons/icon-6.png" alt="Icon" />
-                                    <h3 class="mb-3">3D Animation</h3>
-                                    <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                                    <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Read More</a>
+                        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                            <div class="team-item position-relative">
+                                <div class="position-relative">
+                                    <img class="img-fluid" src="img/team-2.jpg" alt="" />
+                                    <div class="team-social text-center">
+                                        <a class="btn btn-square" href=""><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-square" href=""><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-square" href=""><i class="fab fa-instagram"></i></a>
+                                    </div>
+                                </div>
+                                <div class="bg-light text-center p-4">
+                                    <h3 class="mt-2">Architect Name</h3>
+                                    <span class="text-primary">Designation</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                            <div class="service-item d-flex position-relative text-center h-100">
-                                <img class="bg-img" src="img/service-3.jpg" alt="" />
-                                <div class="service-text p-5">
-                                    <img class="mb-4" src="img/icons/icon-7.png" alt="Icon" />
-                                    <h3 class="mb-3">House Planning</h3>
-                                    <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                                    <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Read More</a>
+                        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                            <div class="team-item position-relative">
+                                <div class="position-relative">
+                                    <img class="img-fluid" src="img/team-3.jpg" alt="" />
+                                    <div class="team-social text-center">
+                                        <a class="btn btn-square" href=""><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-square" href=""><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-square" href=""><i class="fab fa-instagram"></i></a>
+                                    </div>
+                                </div>
+                                <div class="bg-light text-center p-4">
+                                    <h3 class="mt-2">Architect Name</h3>
+                                    <span class="text-primary">Designation</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="service-item d-flex position-relative text-center h-100">
-                                <img class="bg-img" src="img/service-4.jpg" alt="" />
-                                <div class="service-text p-5">
-                                    <img class="mb-4" src="img/icons/icon-8.png" alt="Icon" />
-                                    <h3 class="mb-3">Interior Design</h3>
-                                    <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                                    <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Read More</a>
+                        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                            <div class="team-item position-relative">
+                                <div class="position-relative">
+                                    <img class="img-fluid" src="img/team-4.jpg" alt="" />
+                                    <div class="team-social text-center">
+                                        <a class="btn btn-square" href=""><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-square" href=""><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-square" href=""><i class="fab fa-instagram"></i></a>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                            <div class="service-item d-flex position-relative text-center h-100">
-                                <img class="bg-img" src="img/service-5.jpg" alt="" />
-                                <div class="service-text p-5">
-                                    <img class="mb-4" src="img/icons/icon-9.png" alt="Icon" />
-                                    <h3 class="mb-3">Renovation</h3>
-                                    <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                                    <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                            <div class="service-item d-flex position-relative text-center h-100">
-                                <img class="bg-img" src="img/service-6.jpg" alt="" />
-                                <div class="service-text p-5">
-                                    <img class="mb-4" src="img/icons/icon-10.png" alt="Icon" />
-                                    <h3 class="mb-3">Construction</h3>
-                                    <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                                    <a class="btn" href=""><i class="fa fa-plus text-primary me-3"></i>Read More</a>
+                                <div class="bg-light text-center p-4">
+                                    <h3 class="mt-2">Architect Name</h3>
+                                    <span class="text-primary">Designation</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* <!-- Service End --> */}
+            {/* <!-- Team End --> */}
+
+
+
+
+            {/* <!-- Appointment Start --> */}
+            <div class="container-xxl py-5">
+                <div class="container">
+                    <div class="row g-5">
+                        <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <h4 class="section-title">Appointment</h4>
+                            <h1 class="display-5 mb-4">Make An Appointment To Start Your Service</h1>
+                            <div class="row g-4">
+                                <div class="col-12">
+                                    <div class="d-flex">
+                                        <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-light" >
+                                            <i class="fa fa-2x ti-mobile text-primary"></i>
+                                        </div>
+                                        <div class="ms-4">
+                                            <p class="mb-2">Call Us Now</p>
+                                            <h3 class="mb-0">+91 8141403270</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex">
+                                        <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-light" >
+                                            <i class="fa fa-2x fa-envelope-open text-primary"></i>
+                                        </div>
+                                        <div class="ms-4">
+                                            <p class="mb-2">Mail Us Now</p>
+                                            <h3 class="mb-0">infoproject221@gmail.com</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                            <form onSubmit={submit} method="POST">
+
+                                <div class="row g-3">
+                                    <div class="col-12 col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Your Name" required onChange={(e) => { setname(e.target.value) }} />
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <input type="email" class="form-control" placeholder="Your Email" required onChange={(e) => { setemail(e.target.value) }} />
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Your Mobile" required onChange={(e) => { setmobile(e.target.value) }} />
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Your Service" required onChange={(e) => { setvCatagoryName(e.target.value) }} />
+
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="" id="date" data-target-input="">
+                                            <input type="date"
+                                                class="form-control datetimepicker-input"
+                                                placeholder="Choose Date" data-target="#date" data-toggle="" required onChange={(e) => { setdate(e.target.value) }} />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12">
+                                        <textarea class="form-control" rows="5" placeholder="Address" required onChange={(e) => { setaddress(e.target.value) }}></textarea>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3" type="submit" onClick={toast1}>Book Appointment</button>
+                                        <ToastContainer
+                                            position="top-center"
+                                            autoClose={2500}
+                                            hideProgressBar={false}
+                                            newestOnTop={false}
+                                            closeOnClick
+                                            rtl={false}
+                                            pauseOnFocusLoss
+                                            draggable
+                                            pauseOnHover
+                                        />
+                                    </div>
+                                </div>
+                            </form >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* <!-- Appointment End --> */}
+
+
+            {/* <!-- Testimonial Start --> */}
+            <div class="container-xxl py-5">
+                <div class="container">
+                    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                        <h4 class="section-title">Testimonial</h4>
+                        <h1 class="display-5 mb-4">Thousands Of Customers Who Trust Us And Our Services</h1>
+                    </div>
+                    <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="testimonial-item text-center" data-dot="<img class='img-fluid' src=${test1} alt=''>">
+                            <p class="fs-5">Clita clita tempor justo dolor ipsum amet kasd amet duo justo duo duo labore sed sed. Magna ut diam sit et amet stet eos sed clita erat magna elitr erat sit sit erat at rebum justo sea clita.</p>
+                            <h3>Client Name</h3>
+                            <span class="text-primary">Profession</span>
+                        </div>
+                        <div class="testimonial-item text-center" data-dot="<img class='img-fluid' src='${test2}' alt=''>">
+                            <p class="fs-5">Clita clita tempor justo dolor ipsum amet kasd amet duo justo duo duo labore sed sed. Magna ut diam sit et amet stet eos sed clita erat magna elitr erat sit sit erat at rebum justo sea clita.</p>
+                            <h3>Client Name</h3>
+                            <span class="text-primary">Profession</span>
+                        </div>
+                        <div class="testimonial-item text-center" data-dot="<img class='img-fluid' src='${test3}' alt=''>">
+                            <p class="fs-5">Clita clita tempor justo dolor ipsum amet kasd amet duo justo duo duo labore sed sed. Magna ut diam sit et amet stet eos sed clita erat magna elitr erat sit sit erat at rebum justo sea clita.</p>
+                            <h3>Client Name</h3>
+                            <span class="text-primary">Profession</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* <!-- Testimonial End --> */}
+
+
+
+            {/* <!-- Footer Start --> */}
+            <div class="container-fluid bg-dark text-body footer mt-5 pt-5 px-0 wow fadeIn" data-wow-delay="0.1s">
+                <div class="container py-5">
+                    <div class="row g-5">
+                        <div class="col-lg-3 col-md-6">
+                            <h3 class="text-light mb-4">Address</h3>
+                            <p class="mb-2"><i class="ti-location-pin text-primary me-3"></i>D-104,North Plaza Complex,motera</p>
+                            <p class="mb-2"><i class="ti-mobile text-primary me-3"></i>+91 8141403270</p>
+                            <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>infoproject221@gmail.com</p>
+                            <div class="d-flex pt-2">
+                                <a class="btn btn-square btn-outline-body me-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square btn-outline-body me-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square btn-outline-body me-1" href=""><i class="fab fa-youtube"></i></a>
+                                <a class="btn btn-square btn-outline-body me-0" href=""><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <h3 class="text-light mb-4">Services</h3>
+                            <a class="btn btn-link" href="">Plumbing</a>
+                            <a class="btn btn-link" href="">Painting</a>
+                            <a class="btn btn-link" href="">Carpenting</a>
+                            <a class="btn btn-link" href="">Electric service</a>
+                            <a class="btn btn-link" href="">computer repairing</a>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <h3 class="text-light mb-4">Quick Links</h3>
+                            <a class="btn btn-link" href="">About Us</a>
+                            <a class="btn btn-link" href="">Contact Us</a>
+                            <a class="btn btn-link" href="">Our Services</a>
+                            <a class="btn btn-link" href="">Appointment</a>
+                            <a class="btn btn-link" href="">Support</a>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <h3 class="text-light mb-4">Newsletter</h3>
+                            <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                            <div class="position-relative mx-auto" >
+                                <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email" />
+                                <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid copyright">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                                &copy; <a href="#">Online Local Services</a>, All Right Reserved.
+                            </div>
+                            <div class="col-md-6 text-center text-md-end">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* <!-- Footer End --> */}
+
+
+            {/* <!-- Back to Top --> */}
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="ti-arrow-up"></i></a>
+
 
 
 

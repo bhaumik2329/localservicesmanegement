@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -17,6 +17,20 @@ export const Login = () => {
     const [disable, setdisable] = useState(true)
     const [pmsg, setpmsg] = useState('')
     const [emsg, setemsg] = useState('')
+
+
+    useEffect(() => {
+        toast.warning(`Please Login First`, {
+            position: "top-center",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark"
+        });
+    }, [])
 
     const enable = () => {
         setdisable(false)

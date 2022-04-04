@@ -50,7 +50,7 @@ export const UpdatePass = (props) => {
         <>
             <div>
                 <div class="unix-login">
-                    <div class="container-fluid">
+                    <div class="container-fluid bg-dark">
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
                                 <div class="login-content">

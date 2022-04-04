@@ -322,7 +322,7 @@ h6,
 }
 
 .service-item .service-text {
-    background: var(--light);
+    background: #cfd0d9;
     transition: .5s;
 }
 

@@ -112,7 +112,7 @@ export const UpdateCatagory = () => {
                                         <div class="page-title">
                                             <ol class="breadcrumb">
                                                 <li class="breadcrumb-item"><Link to="#">Admin/</Link></li>
-                                                <li class="breadcrumb-item active">Users update</li>
+                                                <li class="breadcrumb-item active">catagoryupdate</li>
                                             </ol>
                                         </div>
                                     </div>

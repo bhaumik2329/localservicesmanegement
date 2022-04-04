@@ -1,4 +1,5 @@
 import React from 'react'
+
 import '../assets/css/lib/owl.carousel.min.css'
 import '../assets/css/lib/owl.theme.default.min.css'
 import '../assets/css/lib/weather-icons.css'
@@ -6,17 +7,10 @@ import '../assets/css/lib/menubar/sidebar.css'
 
 import { Link } from 'react-router-dom'
 
-import { useNavigate } from 'react-router-dom'
 
-
-
-export const AdminNavbar = () => {
-
-
-
+export const UserNavbar = () => {
     return (
         <>
-
             {/* sidebar */}
             <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
                 <div class="nano">
@@ -24,20 +18,15 @@ export const AdminNavbar = () => {
                         <ul>
                             <div class="logo"><a href="index.html">
                                 {/* <!-- <img src="assets/images/logo.png" alt="" /> --> */}
-                                <span>Admin</span></a></div>
+                                <span>User Profile</span></a></div>
 
-                            <li><Link class="sidebar-sub-toggle" to="/admin/Dashboard" ><i class="ti-home"></i> Dashboard  </Link>
 
-                            </li>
 
                             <li class="label">tables</li>
-                            <li><Link class="sidebar-sub-toggle" to="/GetRole"><i class="ti-desktop"></i> Roles </Link></li>
-                            <li><Link class="sidebar-sub-toggle" to="/GetUser"><i class="ti-user"></i> Users </Link></li>
-                            <li><Link class="sidebar-sub-toggle" to="/GetService"><i class="ti-shopping-cart"></i> Services </Link></li>
-                            <li><Link class="sidebar-sub-toggle" to="/GetCatagory"><i class="ti-layers-alt"></i> Catagories </Link></li>
-                            <li><Link class="sidebar-sub-toggle" to="/GetViceCatagory"><i class="ti-layers-alt"></i> Vice Catagories </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/GetUser"><i class="ti-user"></i> User </Link></li>
                             <li><Link class="sidebar-sub-toggle" to="/"><i class="ti-desktop"></i> User Services </Link></li>
                             <li><Link class="sidebar-sub-toggle" to="/"><i class="ti-comments"></i> User Feedback </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/Home"><i class="ti-user"></i> Back to Home </Link></li>
                         </ul>
                     </div>
                 </div>
@@ -83,9 +72,6 @@ export const AdminNavbar = () => {
                 </div>
             </div>
 
-
         </>
     )
 }
-
-

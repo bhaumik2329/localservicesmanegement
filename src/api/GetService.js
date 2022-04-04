@@ -189,7 +189,6 @@ export const GetService = () => {
                                                 <th scope="col"></th>
                                                 <th scope="col"></th>
                                                 <th scope="col"></th>
-                                                <th scope="col"></th>
 
 
 
@@ -216,9 +215,7 @@ export const GetService = () => {
                                                                 <td>
                                                                     <Link to={`/addcatagory/${service._id}`} className="btn btn-success">Add Catagory</Link>
                                                                 </td>
-                                                                <td>
-                                                                    <Link to={`/addViceCatagory/${service._id}`} className="btn btn-success">Add ViceCatagory</Link>
-                                                                </td>
+
 
 
 
