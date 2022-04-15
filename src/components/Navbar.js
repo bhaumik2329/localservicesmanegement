@@ -72,6 +72,7 @@ export const Navbar = () => {
                             <Link to="/Service" class="nav-item nav-link">Services</Link>
 
                             <Link to="/Contact" class="nav-item nav-link">Contact</Link>
+                            <Link to="/ServiceProvider" class="nav-item nav-link">Service-Providers</Link>
                         </div>
                         {p1}
 

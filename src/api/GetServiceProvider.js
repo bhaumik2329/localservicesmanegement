@@ -6,18 +6,29 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useParams } from 'react-router-dom'
 
-export const GetService = () => {
+
+export const GetServiceProvider = () => {
     const toast1 = () => { }
+    var id1 = useParams().id;
 
-    const [serviceList, setserviceList] = useState([])
-    const [serviceName, setserviceName] = useState()
 
+    const [serviceproviderList, setserviceproviderList] = useState([])
+    const [service, setservice] = useState()
+    const [name, setname] = useState()
+    const [address, setaddress] = useState()
+    const [state, setstate] = useState()
+    const [city, setcity] = useState()
+    const [pinCode, setpinCode] = useState()
+    const [contactNum, setcontactNum] = useState()
+    const [customerSupportNumber, setcustomerSupportNumber] = useState()
+    const [feedbackEmail, setfeedbackEmail] = useState()
 
     const getData = () => {
 
-        axios.get('http://localhost:4000/services').then(data => {
-            setserviceList(data.data.data)
+        axios.get('http://localhost:4000/serviceproviders').then(data => {
+            setserviceproviderList(data.data.data)
             console.log(data.data.data)
         }).catch(err => {
             console.log(err);
@@ -26,38 +37,8 @@ export const GetService = () => {
 
     useEffect(() => {
         getData()
+        setservice(`${id1}`)
     }, [])
-
-
-    const deleteData = (id) => {
-        var id = id
-        axios.delete(`http://localhost:4000/services/` + id).then(res => {
-
-
-            toast.success('🦄 Data Deleted Successfully!', {
-                position: "top-center",
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark"
-            });
-
-        }).catch(err => {
-            toast.error(err, {
-                position: "top-center",
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark"
-            });
-        })
-    }
 
 
     const postData = (e) => {
@@ -66,11 +47,19 @@ export const GetService = () => {
 
 
         var data = {
-            serviceName: serviceName,
+            service: service,
+            name: name,
+            address: address,
+            state: state,
+            city: city,
+            pinCode: pinCode,
+            contactNum: contactNum,
+            customerSupportNumber: customerSupportNumber,
+            feedbackEmail: feedbackEmail,
 
         }
 
-        axios.post('http://localhost:4000/services', data).then(res => {
+        axios.post('http://localhost:4000/serviceproviders', data).then(res => {
             console.log(res.data.data)
 
 
@@ -101,6 +90,40 @@ export const GetService = () => {
         })
 
     }
+
+
+
+    const deleteData = (id) => {
+        var id = id
+        axios.delete(`http://localhost:4000/serviceproviders/` + id).then(res => {
+
+
+            toast.success('🦄 Data Deleted Successfully!', {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+
+        }).catch(err => {
+            toast.error(err, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+        })
+    }
+
+
 
 
     return (
@@ -138,19 +161,29 @@ export const GetService = () => {
                     </div>
                 </div>
 
-                {/* add service */}
+
+                {/* //add service provider */}
+
                 <div class="header">
                     <div class="container-fluid">
                         <div class="">
                             <div class="col-lg-12">
-                                <h3>Add Service</h3>
+                                <h3>Add Service Provider</h3>
                                 <form onSubmit={postData} method="POST">
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name='serviceName' placeholder='serviceName' onChange={(e) => { setserviceName(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='serviceId' placeholder='serviceId' onChange={(e) => { setservice(e.target.value) }} required defaultValue={service} />
+                                        <input type="text" class="form-control" name='name' placeholder='name' onChange={(e) => { setname(e.target.value) }} required />
+                                        <textarea type="text" class="form-control" name='address' placeholder='address' onChange={(e) => { setaddress(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='state' placeholder='state' onChange={(e) => { setstate(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='city' placeholder='city' onChange={(e) => { setcity(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='pinCode' placeholder='pinCode' onChange={(e) => { setpinCode(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='contactNum' placeholder='contactNum' onChange={(e) => { setcontactNum(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='customersupport' placeholder='customersupport' onChange={(e) => { setcustomerSupportNumber(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='feedbackemail' placeholder='feedbackemail' onChange={(e) => { setfeedbackEmail(e.target.value) }} required />
 
 
                                     </div>
-                                    <input class="btn btn-primary" type="submit" value="Add Service" onClick={toast1} />
+                                    <input class="btn btn-primary" type="submit" value="Add Service Provider" onClick={toast1} />
                                     <ToastContainer
                                         position="top-center"
                                         autoClose={2500}
@@ -173,7 +206,6 @@ export const GetService = () => {
                 </div>
                 <br /><br /><br />
 
-
                 {/* table */}
                 <div class="header">
                     <div class="container-fluid">
@@ -183,11 +215,17 @@ export const GetService = () => {
                                     <table class="table table-dark table-striped">
                                         <thead class="">
                                             <tr>
-                                                <th scope="col">ServiceId</th>
+                                                <th scope="col">ServiceProviderId</th>
+                                                <th scope="col">ServiceProviderName</th>
                                                 <th scope="col">ServiceName</th>
+                                                <th scope="col">Address</th>
+                                                <th scope="col">State</th>
+                                                <th scope="col">City</th>
+                                                <th scope="col">Pincode</th>
+                                                <th scope="col">ContactNumber</th>
+                                                <th scope="col">CustomerSupportNumber</th>
+                                                <th scope="col">Feedbackemail</th>
 
-                                                <th scope="col"></th>
-                                                <th scope="col"></th>
                                                 <th scope="col"></th>
                                                 <th scope="col"></th>
 
@@ -198,26 +236,28 @@ export const GetService = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                serviceList.map((service) => {
+                                                serviceproviderList.map((serviceprovider) => {
                                                     return (
                                                         <>
 
                                                             <tr>
-                                                                <th scope="row">{service._id}</th>
-                                                                <td>{service.serviceName}</td>
+                                                                <th scope="row">{serviceprovider._id}</th>
+                                                                <td>{serviceprovider.name}</td>
+                                                                <td>{serviceprovider.service.serviceName}</td>
+                                                                <td>{serviceprovider.address}</td>
+                                                                <td>{serviceprovider.state}</td>
+                                                                <td>{serviceprovider.city}</td>
+                                                                <td>{serviceprovider.pinCode}</td>
+                                                                <td>{serviceprovider.contactNum}</td>
+                                                                <td>{serviceprovider.customerSupportNumber}</td>
+                                                                <td>{serviceprovider.feedbackEmail}</td>
 
                                                                 <td>
-                                                                    <button className="btn btn-danger" onClick={() => { deleteData(service._id) }} >Delete</button>
+                                                                    <button className="btn btn-danger" onClick={() => { deleteData(serviceprovider._id) }} >Delete</button>
 
                                                                 </td>
                                                                 <td>
                                                                     <Link to={`/updateService/${service._id}`} className="btn btn-success">UPDATE</Link>
-                                                                </td>
-                                                                <td>
-                                                                    <Link to={`/addcatagory/${service._id}`} className="btn btn-success">Add Catagory</Link>
-                                                                </td>
-                                                                <td>
-                                                                    <Link to={`/addserviceprovider/${service._id}`} className="btn btn-success">Add Service Provider</Link>
                                                                 </td>
 
 
@@ -241,7 +281,6 @@ export const GetService = () => {
                     </div>
 
                 </div>
-
 
 
 

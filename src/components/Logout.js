@@ -9,6 +9,7 @@ export const Logout = () => {
 
     useEffect(() => {
         localStorage.removeItem('email')
+        localStorage.removeItem('userid')
 
         navigate('/Home')
 

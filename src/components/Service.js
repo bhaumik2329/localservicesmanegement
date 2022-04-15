@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Navbar } from './Navbar'
 import { useParams } from 'react-router-dom'
 import service1 from '../img/service-1.jpg'
+import { Footer } from './Footer'
 
 export const Service = () => {
     const [service, setservice] = useState([])
@@ -84,6 +85,10 @@ export const Service = () => {
                     </div>
                 </div>
                 {/* <!-- Service End --> */}
+
+
+
+                <Footer />
 
 
             </div>

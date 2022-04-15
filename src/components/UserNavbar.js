@@ -23,8 +23,8 @@ export const UserNavbar = () => {
 
 
                             <li class="label">tables</li>
-                            <li><Link class="sidebar-sub-toggle" to="/GetUser"><i class="ti-user"></i> User </Link></li>
-                            <li><Link class="sidebar-sub-toggle" to="/"><i class="ti-desktop"></i> User Services </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/UserProfile"><i class="ti-user"></i> User Profile </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/UserServices"><i class="ti-desktop"></i> User Services </Link></li>
                             <li><Link class="sidebar-sub-toggle" to="/"><i class="ti-comments"></i> User Feedback </Link></li>
                             <li><Link class="sidebar-sub-toggle" to="/Home"><i class="ti-user"></i> Back to Home </Link></li>
                         </ul>

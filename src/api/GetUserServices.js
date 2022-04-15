@@ -1,37 +1,46 @@
 import React from 'react'
 import { AdminNavbar } from '../components/AdminNavbar'
 import { Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+
 import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const GetService = () => {
+export const GetUserServices = () => {
     const toast1 = () => { }
 
-    const [serviceList, setserviceList] = useState([])
-    const [serviceName, setserviceName] = useState()
-
+    const [userServiceList, setuserServiceList] = useState([])
+    const [user, setuser] = useState()
+    const [service, setservice] = useState()
+    const [catagory, setcatagory] = useState()
+    const [vCatagory, setvCatagory] = useState()
 
     const getData = () => {
 
-        axios.get('http://localhost:4000/services').then(data => {
-            setserviceList(data.data.data)
+        axios.get('http://localhost:4000/userservices').then(data => {
+            setuserServiceList(data.data.data)
             console.log(data.data.data)
         }).catch(err => {
             console.log(err);
         })
     }
 
+
+
     useEffect(() => {
         getData()
+
+
+
     }, [])
 
 
     const deleteData = (id) => {
         var id = id
-        axios.delete(`http://localhost:4000/services/` + id).then(res => {
+        axios.delete(`http://localhost:4000/userservices/` + id).then(res => {
 
 
             toast.success('🦄 Data Deleted Successfully!', {
@@ -66,15 +75,19 @@ export const GetService = () => {
 
 
         var data = {
-            serviceName: serviceName,
+            user: user,
+            service: service,
+            catagory: catagory,
+            vCatagory: vCatagory,
+
 
         }
 
-        axios.post('http://localhost:4000/services', data).then(res => {
+        axios.post('http://localhost:4000/userservices', data).then(res => {
             console.log(res.data.data)
 
 
-            toast.success(`🦄 Service Added Successfully!`, {
+            toast.success(`🦄 UserService Added Successfully!`, {
                 position: "top-center",
                 autoClose: 2500,
                 hideProgressBar: false,
@@ -103,6 +116,13 @@ export const GetService = () => {
     }
 
 
+
+
+
+
+
+
+
     return (
         <>
             <div>
@@ -127,7 +147,7 @@ export const GetService = () => {
                                         <div class="page-title">
                                             <ol class="breadcrumb">
                                                 <li class="breadcrumb-item"><Link to="#">Admin/</Link></li>
-                                                <li class="breadcrumb-item active">Services</li>
+                                                <li class="breadcrumb-item active">userservices</li>
                                             </ol>
                                         </div>
                                     </div>
@@ -138,19 +158,23 @@ export const GetService = () => {
                     </div>
                 </div>
 
-                {/* add service */}
+                {/* add user service */}
+
                 <div class="header">
                     <div class="container-fluid">
                         <div class="">
                             <div class="col-lg-12">
-                                <h3>Add Service</h3>
+                                <h3>Add UserService</h3>
                                 <form onSubmit={postData} method="POST">
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name='serviceName' placeholder='serviceName' onChange={(e) => { setserviceName(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='userId' placeholder='userId' onChange={(e) => { setuser(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='serviceId' placeholder='serviceId' onChange={(e) => { setservice(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='catagoryId' placeholder='catagoryId' onChange={(e) => { setcatagory(e.target.value) }} required />
+                                        <input type="text" class="form-control" name='vCatagoryId' placeholder='vCatagoryId' onChange={(e) => { setvCatagory(e.target.value) }} required />
 
 
                                     </div>
-                                    <input class="btn btn-primary" type="submit" value="Add Service" onClick={toast1} />
+                                    <input class="btn btn-primary" type="submit" value="Add UserService" onClick={toast1} />
                                     <ToastContainer
                                         position="top-center"
                                         autoClose={2500}
@@ -174,6 +198,7 @@ export const GetService = () => {
                 <br /><br /><br />
 
 
+
                 {/* table */}
                 <div class="header">
                     <div class="container-fluid">
@@ -183,12 +208,12 @@ export const GetService = () => {
                                     <table class="table table-dark table-striped">
                                         <thead class="">
                                             <tr>
-                                                <th scope="col">ServiceId</th>
+                                                <th scope="col">UserServiceId</th>
+                                                <th scope="col">UserName</th>
                                                 <th scope="col">ServiceName</th>
+                                                <th scope="col">CatagoryName</th>
+                                                <th scope="col">ViceCatagoryName</th>
 
-                                                <th scope="col"></th>
-                                                <th scope="col"></th>
-                                                <th scope="col"></th>
                                                 <th scope="col"></th>
 
 
@@ -198,26 +223,20 @@ export const GetService = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                serviceList.map((service) => {
+                                                userServiceList.map((userservice) => {
                                                     return (
                                                         <>
 
                                                             <tr>
-                                                                <th scope="row">{service._id}</th>
-                                                                <td>{service.serviceName}</td>
+                                                                <th scope="row">{userservice._id}</th>
+                                                                <td>{userservice.user.firstName}</td>
+                                                                <td>{userservice.service.serviceName}</td>
+                                                                <td>{userservice.catagory.catagoryName}</td>
+                                                                <td>{userservice.vCatagory.vCatagoryName}</td>
 
                                                                 <td>
-                                                                    <button className="btn btn-danger" onClick={() => { deleteData(service._id) }} >Delete</button>
+                                                                    <button className="btn btn-danger" onClick={() => { deleteData(userservice._id) }} >Delete</button>
 
-                                                                </td>
-                                                                <td>
-                                                                    <Link to={`/updateService/${service._id}`} className="btn btn-success">UPDATE</Link>
-                                                                </td>
-                                                                <td>
-                                                                    <Link to={`/addcatagory/${service._id}`} className="btn btn-success">Add Catagory</Link>
-                                                                </td>
-                                                                <td>
-                                                                    <Link to={`/addserviceprovider/${service._id}`} className="btn btn-success">Add Service Provider</Link>
                                                                 </td>
 
 
@@ -241,8 +260,6 @@ export const GetService = () => {
                     </div>
 
                 </div>
-
-
 
 
 

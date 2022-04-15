@@ -1,6 +1,7 @@
 import React from 'react'
 
 
+
 import { Navbar } from './Navbar'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -19,6 +20,7 @@ import '../lib/owlcarousel/assets/owl.carousel.min.css'
 import '../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'
 import '../css/bootstrap.min.css'
 import '../css/style.css'
+import { Footer } from './Footer'
 
 
 export const Appointment = () => {
@@ -33,9 +35,24 @@ export const Appointment = () => {
     const [date, setdate] = useState()
     const [address, setaddress] = useState()
 
+
+
+    const [user, setuser] = useState()
+    const [service, setservice] = useState()
+    const [catagory, setcatagory] = useState()
+    const [vCatagory, setvCatagory] = useState()
+
+
     var id = useParams().id;
+    var data1 = {
+        email: uemail
+    }
+
 
     const getData = () => {
+
+
+
 
         axios.get(`http://localhost:4000/vicecatagories/${id}`).then(res => {
 
@@ -43,28 +60,82 @@ export const Appointment = () => {
             console.log(res.data.data)
 
 
+
         }).catch(err => {
             console.log(err);
         })
+
     }
 
+    axios.post('http://localhost:4000/getuserbyemail', data1).then(res => {
+        console.log(res.data.data[0]._id)
+        setuser(res.data.data[0]._id)
+
+
+
+
+    }).catch(err => {
+        console.log(err);
+    })
+
+
+
+
     useEffect(() => {
-        getData()
+
         setuemail(localStorage.getItem('email'))
+        getData()
+
+
+
+
+
+
+
+
+
     }, [])
 
 
 
     useEffect(() => {
+
+
+
         setvicecatagoryName(vicecatagory.vCatagoryName)
+
+
+        setservice(vicecatagory.service)
+        setvCatagory(vicecatagory._id)
+        setcatagory(vicecatagory.catagory)
         console.log(vicecatagoryName)
+
+
+
+
+
+
+
     })
 
 
+
+
+
+
+
+
     const submit = (e) => {
+
+
+
         e.preventDefault()
 
         if (uemail == email) {
+
+
+
+
 
 
             var data = {
@@ -130,6 +201,50 @@ export const Appointment = () => {
             });
         }
 
+
+
+        // postdata
+        var data = {
+            user: user,
+            service: service,
+            catagory: catagory,
+            vCatagory: vCatagory,
+
+
+        }
+
+        axios.post('http://localhost:4000/userservices', data).then(res => {
+            console.log(res.data.data)
+
+
+            toast.success(`🦄 UserService Added Successfully!`, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+
+
+
+        }).catch(err => {
+            toast.error(err, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+        })
+
+
+
     }
 
 
@@ -147,6 +262,7 @@ export const Appointment = () => {
 
     return (
         <>
+
             <div>
 
                 <Navbar />
@@ -252,7 +368,14 @@ export const Appointment = () => {
                     </div>
                 </div>
             </div>
+
+
             {/* <!-- Appointment End --> */}
+
+
+            <Footer />
+
+
 
 
 

@@ -37,6 +37,10 @@ import { Appointment } from './components/Appointment';
 import { Contact } from './components/Contact';
 import { Catagory } from './components/Catagory';
 import { ViceCatagory } from './components/ViceCatagory';
+import { GetUserServices } from './api/GetUserServices';
+import { UserService } from './components/UserService';
+import { GetServiceProvider } from './api/GetServiceProvider';
+import { ServiceProvider } from './components/ServiceProvider';
 
 
 
@@ -85,6 +89,9 @@ function App() {
             <Route path="/Service" element={<Login />}></Route>
           </Routes>
           <Routes>
+            <Route path="/ServiceProvider" element={<Login />}></Route>
+          </Routes>
+          <Routes>
             <Route path="/Catagories/:id" element={<Login />}></Route>
           </Routes>
           <Routes>
@@ -130,7 +137,13 @@ function App() {
             <Route path="/GetViceCatagory" element={<Login />}></Route>
           </Routes>
           <Routes>
+            <Route path="/GetUserServices" element={<Login />}></Route>
+          </Routes>
+          <Routes>
             <Route path="/addcatagory/:id" element={<Login />}></Route>
+          </Routes>
+          <Routes>
+            <Route path="/addserviceprovider/:id" element={<Login />}></Route>
           </Routes>
           <Routes>
             <Route path="/addViceCatagory/:id/:id1" element={<Login />}></Route>
@@ -173,6 +186,9 @@ function App() {
             <Route path="/Service" element={<Service />}></Route>
           </Routes>
           <Routes>
+            <Route path="/ServiceProvider" element={<ServiceProvider />}></Route>
+          </Routes>
+          <Routes>
             <Route path="/Catagories/:id" element={<Catagory />}></Route>
           </Routes>
           <Routes>
@@ -183,6 +199,9 @@ function App() {
 
           <Routes>
             <Route path="/UserProfile" element={<UserProfile />}></Route>
+          </Routes>
+          <Routes>
+            <Route path="/UserServices" element={<UserService />}></Route>
           </Routes>
           <Routes>
             <Route path="/Logout" element={<Logout />}></Route>
@@ -235,7 +254,16 @@ function App() {
             <Route path="/GetViceCatagory" element={<GetViceCatagory />}></Route>
           </Routes>
           <Routes>
+            <Route path="/GetUserServices" element={<GetUserServices />}></Route>
+          </Routes>
+          <Routes>
             <Route path="/addcatagory/:id" element={<GetCatagory />}></Route>
+          </Routes>
+          <Routes>
+            <Route path="/addserviceprovider/:id" element={<GetServiceProvider />}></Route>
+          </Routes>
+          <Routes>
+            <Route path="/GetServiceProvider" element={<GetServiceProvider />}></Route>
           </Routes>
           <Routes>
             <Route path="/addViceCatagory/:id/:id1" element={<GetViceCatagory />}></Route>

@@ -4,6 +4,7 @@ import about2 from '../img/about-2.jpg'
 import { Link } from 'react-router-dom'
 import icon1 from '../img/icons/icon-1.png'
 import { Navbar } from './Navbar'
+import { Footer } from './Footer'
 
 
 
@@ -35,6 +36,8 @@ export const About = () => {
                     </div>
                 </div>
             </div>
+
+            <Footer />
             {/* <!-- About End --> */}
 
         </div>

@@ -36,7 +36,8 @@ export const AdminNavbar = () => {
                             <li><Link class="sidebar-sub-toggle" to="/GetService"><i class="ti-shopping-cart"></i> Services </Link></li>
                             <li><Link class="sidebar-sub-toggle" to="/GetCatagory"><i class="ti-layers-alt"></i> Catagories </Link></li>
                             <li><Link class="sidebar-sub-toggle" to="/GetViceCatagory"><i class="ti-layers-alt"></i> Vice Catagories </Link></li>
-                            <li><Link class="sidebar-sub-toggle" to="/"><i class="ti-desktop"></i> User Services </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/GetUserServices"><i class="ti-desktop"></i> User Services </Link></li>
+                            <li><Link class="sidebar-sub-toggle" to="/GetServiceProvider"><i class="ti-user"></i>Service Providers </Link></li>
                             <li><Link class="sidebar-sub-toggle" to="/"><i class="ti-comments"></i> User Feedback </Link></li>
                         </ul>
                     </div>

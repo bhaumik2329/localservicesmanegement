@@ -1,4 +1,5 @@
 import React from 'react'
+import { Footer } from './Footer'
 import { Navbar } from './Navbar'
 
 
@@ -105,6 +106,8 @@ export const Contact = () => {
                 </div>
                 {/* <!-- Contact End --> */}
 
+
+                <Footer />
             </div>
         </>
     )
